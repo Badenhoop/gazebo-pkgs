@@ -270,6 +270,9 @@ void GazeboGraspFix::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   contactManager->PublishContacts();  // TODO not sure this is required?
 
   filter_name = model->GetScopedName();
+  int filter_idx = 0;
+  while (contactManager->HasFilter(filter_name + std::to_string(++filter_idx)));
+  filter_name = filter_name + std::to_string(filter_idx);
   std::string topic = contactManager->CreateFilter(filter_name,
                       collisionNames);
   if (!this->contactSub)
